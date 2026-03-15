@@ -36,7 +36,7 @@ class MusicianForm(forms.ModelForm):
         }
 
 # Форма для создания и редактирования альбомов
-class Albunform(forms.ModelForm):
+class AlbunForm(forms.ModelForm):
     """
     Форма для работы с моделью Album.
     Позволяет создавать и редактировать записи об авторах.
@@ -44,7 +44,7 @@ class Albunform(forms.ModelForm):
     class Meta:
         model = Album
         
-        fields = ['title', 'musician', 'release_date', 'cover_image']
+        fields = ['title', 'musician', 'genre' ,'release_date', 'cover_image']
         
         widgets = {
             'title': forms.TextInput(attrs={
@@ -63,6 +63,9 @@ class Albunform(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Jбложка альбома'
             }),
+            'genre': forms.Select(attrs={
+                'class': 'form-control'
+            }),
         }
 
 class MusicTrackForm(forms.ModelForm):
@@ -71,7 +74,7 @@ class MusicTrackForm(forms.ModelForm):
     Позволяет создавать и редактировать записи об авторах.
     """
     class Meta:
-        model = Album
+        model = MusicTrack
         
         fields = ['title', 'musician', 'release_date', 'cover_image']
         
@@ -103,7 +106,7 @@ class MusicTrackForm(forms.ModelForm):
 
 
 # Форма для поиска треков
-class BookSearchForm(forms.Form):
+class TrackSearchForm(forms.Form):
     """
     Форма для фильтрации и поиска треков.
     Используется на странице каталога или поиска.
@@ -154,5 +157,60 @@ class BookSearchForm(forms.Form):
         label='Только избранное',
         widget=forms.CheckboxInput(attrs={
             'class': 'form-check-input'
+        })
+    )
+
+# Форма для поиска треков
+class AlbumSearchForm(forms.Form):
+    """
+    Форма для фильтрации и поиска альбомов.
+    Используется на странице каталога или поиска.
+    """
+    # Поиск по названию (текстовое поле)
+    query = forms.CharField(
+        required=False,  # Поле необязательное для заполнения
+        label='Название',  # Метка поля в шаблоне
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Поиск по названию или исполнителю'
+        })
+    )
+    
+    musician = forms.ModelChoiceField(
+        queryset=Musician.objects.all(), 
+        required=False,
+        label='Автор',
+        empty_label="Все исполнители",  # Значение по умолчанию
+        widget=forms.Select(attrs={
+            'class': 'form-control'
+        })
+    )
+    
+    # Фильтр по году (начало диапазона)
+    year_from = forms.IntegerField(
+        required=False,
+        label='Год с',
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Год с'
+        })
+    )
+    
+    # Фильтр по году (конец диапазона)
+    year_to = forms.IntegerField(
+        required=False,
+        label='Год по',
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Год по'
+        })
+    )
+
+    genre = forms.ChoiceField(
+        choices=[('', 'Все жанры')] + Album.Genre.choices,
+        required=False,
+        label='Жанр',
+        widget=forms.Select(attrs={
+            'class': 'form-control'
         })
     )

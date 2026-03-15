@@ -39,6 +39,20 @@ class Musician(models.Model):
 
 
 class MusicTrack(models.Model):
+    class Genre(models.TextChoices):
+        ROCK = 'rock', 'Рок'
+        POP = 'pop', 'Поп'
+        HIP_HOP = 'hip_hop', 'Хип-хоп'
+        JAZZ = 'jazz', 'Джаз'
+        CLASSICAL = 'classical', 'Классическая'
+        ELECTRONIC = 'electronic', 'Электронная'
+        RNB = 'rnb', 'R&B'
+        FOLK = 'folk', 'Фолк'
+        OTHER = 'other', 'Другое'
+        METAL = 'metal', 'Метал'
+        BLUES = 'blues', 'Блюз'
+
+
     title = models.CharField(
         max_length=100, 
         verbose_name="Название трека" 
@@ -80,6 +94,15 @@ class MusicTrack(models.Model):
         on_delete=models.CASCADE,
         related_name='tracks', 
         verbose_name="Альбом"
+    )
+
+    genre = models.CharField(
+        max_length=50, 
+        verbose_name="Жанр",
+        choices=Genre.choices,
+        blank=True,
+        null=True,
+        default=Genre.OTHER
     )
 
     class Meta:
