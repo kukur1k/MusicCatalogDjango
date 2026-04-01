@@ -1,0 +1,103 @@
+{% extends 'music/base.html' %}
+{% load static %}
+
+{% block title %}Список треков{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Каталог треков</h1>
+                <a href="{% url 'music:track_create' %}" class="btn btn-primary">
+                    + Добавить трек
+                </a>
+            </div>
+            
+            <!-- Форма поиска -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Поиск и фильтрация</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-4">
+                            {{ form.query.label_tag }}
+                            {{ form.query }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form.musician.label_tag }}
+                            {{ form.musician }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.year_from.label_tag }}
+                            {{ form.year_from }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.year_to.label_tag }}
+                            {{ form.year_to }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form.genre.label_tag }}
+                            {{ form.genre }}
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Применить фильтры</button>
+                            <a href="{% url 'music:track_list' %}" class="btn btn-secondary">Сбросить</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Список альбомов -->
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for track in tracks %}
+                    <div class="col">
+                        <div class="card h-100">
+                            {% if track.cover_image %}
+                                <img src="{{ track.cover_image.url }}" 
+                                     class="card-img-top" 
+                                     alt="{{ track.title }}"
+                                     style="height: 200px; object-fit: cover; width: 100%;">
+                            {% else %}
+                                <img src="{% static 'icons/album.jpg' %}" 
+                                     class="card-img-top" 
+                                     alt="Нет обложки"
+                                     style="height: 200px; object-fit: contain; width: 100%;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ track.title }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ track.musician.name }}</h6>
+                                <p class="card-text">
+                                    {% if track.release_date %}
+                                        <strong>Год:</strong> {{ track.release_date|date:"Y" }}<br>
+                                    {% endif %}
+                                    {% if track.genre %}
+                                        <strong>Жанр:</strong> {{ track.genre.title }}<br>
+                                    {% endif %}
+                                    {% if track.album %}
+                                         <strong>Альбом:</strong> {{ track.album.title }}<br>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'music:track_detail' track.pk %}" class="btn btn-info btn-sm flex-fill">Подробнее</a>
+                                    <a href="{% url 'music:track_update' track.pk %}" class="btn btn-warning btn-sm flex-fill">Редактировать</a>
+                                    <a href="{% url 'music:track_delete' track.pk %}" class="btn btn-danger btn-sm flex-fill">Удалить</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12">
+                        <p class="text-center">Треки не найдены</p>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <p class="text-muted mt-3">Всего найдено: {{ tracks|length }} треков</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

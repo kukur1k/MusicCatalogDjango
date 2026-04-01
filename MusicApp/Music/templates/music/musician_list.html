@@ -1,0 +1,50 @@
+{% extends 'music/base.html' %}
+
+{% block title %}Исполнители{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">Исполнители</h1>
+        
+        <div class="row">
+            {% for musician in musicians %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        {% if musician.cover_image %}
+                            <img src="{{ musician.cover_image.url }}" class="card-img-top" alt="{{ musician.name }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <img src="/static/default_musician.jpg" class="card-img-top" alt="Нет фото" style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ musician.name }}</h5>
+                            <p class="card-text">
+                                {% if musician.start_year %}Начало карьеры: {{ musician.start_year }}<br>{% endif %}
+                                {% if musician.country %}Страна: {{ musician.country }}<br>{% endif %}
+                                Альбомов: {{ musician.albums.count }}<br>
+                                Треков: {{ musician.tracks.count }}
+                            </p>
+                            
+                            {% if musician.albums.all %}
+                                <h6>Альбомы:</h6>
+                                <ul class="list-unstyled">
+                                    {% for album in musician.albums.all|slice:":3" %}
+                                        <li>
+                                            <a href="{% url 'album_detail' album.pk %}">{{ album.title }}</a>
+                                            ({{ album.tracks.count }} треков)
+                                        </li>
+                                    {% endfor %} 
+                                </ul>
+                            {% endif %}
+                            
+                            <a href="{% url 'musician_detail' musician.pk %}" class="btn btn-primary mt-2">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Пока нет исполнителей</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

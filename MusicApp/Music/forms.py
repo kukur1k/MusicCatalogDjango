@@ -36,7 +36,7 @@ class MusicianForm(forms.ModelForm):
         }
 
 # Форма для создания и редактирования альбомов
-class AlbunForm(forms.ModelForm):
+class AlbumForm(forms.ModelForm):
     """
     Форма для работы с моделью Album.
     Позволяет создавать и редактировать записи об авторах.
@@ -76,7 +76,7 @@ class MusicTrackForm(forms.ModelForm):
     class Meta:
         model = MusicTrack
         
-        fields = ['title', 'musician', 'release_date', 'cover_image']
+        fields = ['title', 'musician', 'album', 'release_date', 'genre', 'file', 'cover_image']
         
         widgets = {
             'title': forms.TextInput(attrs={
@@ -93,6 +93,9 @@ class MusicTrackForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Дата релиза (Y-M-D)',
                 'type': 'date'
+            }),
+            'genre': forms.Select(attrs={ 
+                'class': 'form-control',
             }),
             'file': forms.FileInput(attrs={
                 'class': 'form-control',
