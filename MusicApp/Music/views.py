@@ -45,11 +45,11 @@ def album_list(request):
         if musician:
             albums = albums.filter(musician=musician)
 
-        if year_from:
-            albums = albums.filter(publication_year__gte=year_from)
+        if year_from and year_from is not None and year_from != '':
+            albums = albums.filter(release_date__year__gte=year_from)
 
-        if year_to:
-            albums = albums.filter(publication_year__lte=year_to)
+        if year_to and year_from is not None and year_to != '':
+            albums = albums.filter(release_date__year__lte=year_from)
 
     context = {
         'albums': albums, 

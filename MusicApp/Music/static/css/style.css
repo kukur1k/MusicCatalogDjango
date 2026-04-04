@@ -1,13 +1,12 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    background: black;
+    color: white;
     line-height: 1.5;
     min-height: 100vh;
     display: flex;
@@ -16,3 +15,109 @@ body {
 
 
 
+header{
+    display: flex;
+    justify-content: space-around;
+    padding-top: 1rem;
+    color: #8987A1;
+    font-size: 1.2rem;
+}
+
+
+body::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-image: url('/static/design_img/MaskGroupZ.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.3;
+    z-index: -1;
+    pointer-events: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+.navbar {
+    background: rgba(15, 1, 1, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    border: 1px solid #d94004;
+    margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navbar-brand {
+    color: #d94004;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    justify-items: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-link {
+    color: #8987A1;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #d94004;
+}
+
+
+.AddAlbumBtn{
+    background-color: black;
+    border: 1px solid #d94004;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 20px;
+}
+
+.btn1{
+    color: #d94004;
+    font-size: 10rem;
+}
+
+.searchCard{
+    background: black;
+    border-radius: 20px;
+    border: 1px solid #d94004;
+}
