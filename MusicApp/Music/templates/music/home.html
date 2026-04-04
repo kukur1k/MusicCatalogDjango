@@ -12,32 +12,8 @@
         </div>
     </div>
 
-    <div class="row mb-5">
-        <div class="col-md-6 mb-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center">
-                    <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 60px; height: 60px;">
-                <i class="bi bi-music-note-list text-white fs-4"></i>
-            </div>
-            <h3 class="card-title h4 mb-2">{{ total_tracks }}</h3>
-            <p class="text-muted mb-0">Треков в коллекции</p>
-        </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center">
-            <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 60px; height: 60px;">
-                <i class="bi bi-collection-play text-white fs-4"></i>
-            </div>
-            <h3 class="card-title h4 mb-2">{{ total_albums }}</h3>
-            <p class="text-muted mb-0">Альбомов в коллекции</p>
-        </div>
-            </div>
-        </div>
-    </div>
+    
 
-    <!-- Последние добавленные треки -->
     <h2 class="mb-4">Последние добавленные треки</h2>
     <div class="row">
         {% if recent_tracks %}
@@ -71,7 +47,6 @@
         {% endif %}
     </div>
 
-    <!-- Быстрые действия -->
     <div class="row mt-5">
         <div class="col-12 text-center">
             <a href="{% url 'music:album_list' %}" class="btn btn-lg btn-primary me-3">Все альбомы</a>

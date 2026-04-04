@@ -1,0 +1,125 @@
+{% extends 'music/base.html' %}
+{% load static %}
+
+{% block title %}{{ musician.name }} - Исполнитель{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="mb-4">
+        <a href="{% url 'music:musician_list' %}" class="btn btn-secondary">
+            ← Назад к исполнителям
+        </a>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                {% if musician.cover_image %}
+                    <img src="{{ musician.cover_image.url }}" 
+                         class="card-img-top" 
+                         alt="{{ musician.name }}"
+                         style="width: 100%; object-fit: cover;">
+                {% else %}
+                    <img src="{% static 'icons/musician.jpg' %}" 
+                         class="card-img-top" 
+                         alt="Нет фото"
+                         style="width: 100%; object-fit: contain; background: #f5f5f5;">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title display-5 mb-3">{{ musician.name }}</h1>
+                    
+                    {% if musician.country %}
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Страна</h5>
+                        <p class="fs-5">{{ musician.country }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if musician.start_year %}
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Начало карьеры</h5>
+                        <p class="fs-5">{{ musician.start_year }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if musician.description %}
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Об исполнителе</h5>
+                        <p class="fs-6">{{ musician.description|linebreaks }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Количество альбомов</h5>
+                        <!-- ИСПРАВЛЕНО: Albums с большой буквы -->
+                        <p class="fs-5">{{ musician.Albums.count }} альбомов</p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'music:musician_update' musician.pk %}" class="btn btn-warning">Редактировать</a>
+                        <a href="{% url 'music:musician_delete' musician.pk %}" class="btn btn-danger">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Альбомы исполнителя</h3>
+                </div>
+                <div class="card-body">
+                    <!-- ИСПРАВЛЕНО: Albums с большой буквы -->
+                    {% if musician.Albums.all %}
+                        <div class="row row-cols-1 row-cols-md-3 g-4">
+                            <!-- ИСПРАВЛЕНО: Albums с большой буквы -->
+                            {% for album in musician.Albums.all %}
+                            <div class="col">
+                                <div class="card h-100 shadow-sm">
+                                    {% if album.cover_image %}
+                                        <img src="{{ album.cover_image.url }}" 
+                                             class="card-img-top" 
+                                             alt="{{ album.title }}"
+                                             style="height: 200px; object-fit: cover;">
+                                    {% else %}
+                                        <img src="{% static 'icons/album.jpg' %}" 
+                                             class="card-img-top" 
+                                             alt="Нет обложки"
+                                             style="height: 200px; object-fit: contain; background: #f5f5f5;">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ album.title }}</h5>
+                                        {% if album.release_date %}
+                                            <p class="card-text text-muted">
+                                                <small>{{ album.release_date|date:"d.m.Y" }}</small>
+                                            </p>
+                                        {% endif %}
+                                        <p class="card-text">
+                                            <small class="text-muted">{{ album.tracks.count }} треков</small>
+                                        </p>
+                                        <a href="{% url 'music:album_detail' album.pk %}" class="btn btn-primary btn-sm">
+                                            Подробнее
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <p class="text-muted mb-3">У этого исполнителя пока нет альбомов</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

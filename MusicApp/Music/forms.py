@@ -163,6 +163,30 @@ class TrackSearchForm(forms.Form):
         })
     )
 
+
+
+
+
+# Форма для поиска треков
+class MusicianSearchForm(forms.Form):
+    
+    # Поиск по названию (текстовое поле)
+    query = forms.CharField(
+        required=False,  # Поле необязательное для заполнения
+        label='Имя',  # Метка поля в шаблоне
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Поиск по имени'
+        })
+    )
+    
+
+
+
+
+
+
+
 # Форма для поиска треков
 class AlbumSearchForm(forms.Form):
     """

@@ -18,7 +18,7 @@
                 <form method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Да, удалить</button>
-                    <a href="{% url 'music:track_detail' album.pk %}" class="btn btn-secondary">Отмена</a>
+                    <a href="{% url 'music:track_detail' track.pk %}" class="btn btn-secondary">Отмена</a>
                 </form>
             </div>
         </div>

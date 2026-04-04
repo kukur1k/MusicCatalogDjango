@@ -1,0 +1,95 @@
+{% extends 'music/base.html' %}
+{% load static %}
+
+{% block title %}{{ track.title }} - {{ track.musician.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Кнопка назад -->
+    <div class="mb-4">
+        <a href="{% url 'music:track_list' %}" class="btn btn-secondary">
+            ← Назад к трекам
+        </a>
+    </div>
+
+    <!-- Основная информация о треке -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title display-5 mb-3">{{ track.title }}</h1>
+                    
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Исполнитель</h5>
+                        <p class="fs-4">
+                            <a href="{% url 'music:musician_detail' track.musician.pk %}">
+                                {{ track.musician.name }}
+                            </a>
+                        </p>
+                    </div>
+                    
+                    {% if track.album %}
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Альбом</h5>
+                        <p class="fs-5">
+                            <a href="{% url 'music:album_detail' track.album.pk %}">
+                                {{ track.album.title }}
+                            </a>
+                        </p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if track.genre %}
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Жанр</h5>
+                        <p><span class="badge bg-primary fs-6">{{ track.get_genre_display }}</span></p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if track.release_date %}
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Дата выхода</h5>
+                        <p class="fs-5">{{ track.release_date|date:"d.m.Y" }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if track.duration %}
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Длительность</h5>
+                        <p class="fs-5">{{ track.duration }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if track.is_favorite %}
+                    <div class="mb-3">
+                        <span class="badge bg-success fs-6">❤️ В избранном</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if track.file %}
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Аудио</h5>
+                        <audio controls style="width: 100%;">
+                            <source src="{{ track.file.url }}" type="audio/mpeg">
+                            Ваш браузер не поддерживает аудио
+                        </audio>
+                    </div>
+                    {% endif %}
+                    
+                    {% if track.description %}
+                    <div class="mb-3">
+                        <h5 class="text-muted mb-2">Описание</h5>
+                        <p class="fs-6">{{ track.description|linebreaks }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'music:track_update' track.pk %}" class="btn btn-warning">Редактировать</a>
+                        <a href="{% url 'music:track_delete' track.pk %}" class="btn btn-danger">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

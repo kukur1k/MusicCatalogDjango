@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect  # Утилит
 from django.db.models import Q  # Для сложных запросов с OR (логическое ИЛИ)
 from django.contrib import messages
 from .models import Musician, MusicTrack, Album
-from .forms import MusicianForm, MusicTrackForm, AlbumForm, AlbumSearchForm, TrackSearchForm
+from .forms import MusicianForm, MusicTrackForm, AlbumForm, AlbumSearchForm, TrackSearchForm, MusicianSearchForm
 
 
 def home(request):
@@ -112,7 +112,7 @@ def album_delete(request, pk):
     if request.method == 'POST':
         
         album.delete()
-        messages.success(request, f'Книга "{album.title}" удалена!')
+        messages.success(request, f'Альбом "{album.title}" удален!')
         return redirect('music:album_list')
     
     # GET запрос - показываем страницу подтверждения
@@ -146,7 +146,97 @@ def album_create(request):
 
 
 
+#================================Исполнители=====================================
+
+def musician_list(request):
+
+    musicians = Musician.objects.all()
+
+    form = MusicianSearchForm(request.GET)
+
+    if form.is_valid():
+        query  = form.cleaned_data.get('query')
+        genre = form.cleaned_data.get('genre')
+
+        if query:
+            albums = albums.filter(
+                Q(title__icontains=query) |
+                Q(musician__name__icontains=query)
+            )
+
+
+    context = {
+        'musicians': musicians, 
+        'form': form,   
+    }
+    return render(request, 'music/musician_list.html', context)
+
+
+def musician_detail(request, pk):    
+    musician = get_object_or_404(Musician.objects.all(), pk=pk)
+    return render(request, 'music/musician_detail.html', {'musician': musician})
+
+
+
+def musician_delete(request, pk):
+
+    musician = get_object_or_404(Musician, pk=pk)
+    
+    if request.method == 'POST':
+        
+        musician.delete()
+        messages.success(request, f'Исполнитель "{musician.name}" удален!')
+        return redirect('music:musician_list')
+    
+    # GET запрос - показываем страницу подтверждения
+    return render(request, 'music/musician_confirm_delete.html', {'musician': musician})
+
+
+
+
+def musician_create(request):
+    
+    if request.method == 'POST':
+        
+        form = MusicianForm(request.POST, request.FILES)
+        if form.is_valid():
+    
+            musician = form.save()
+         
+            messages.success(request, f'Исполнитель "{musician.name}" успешно добавлен!')
+          
+            return redirect('music:musician_detail', pk=musician.pk)
+    else:
+        # GET запрос - создаем пустую форму
+        form = MusicianForm()
+    
+    # Рендерим шаблон с формой
+    return render(request, 'music/musician_form.html', {'form': form, 'title': 'Добавить исполнителя'})
+
+
+def musician_update(request, pk):
+
+
+    musician = get_object_or_404(Musician, pk=pk)
+    
+    if request.method == 'POST':
+        
+        form = MusicianForm(request.FILES, request.POST, instance=musician)
+        if form.is_valid():
+           
+            musician = form.save()
+            messages.success(request, f'Альбом "{musician.name}" успешно обновлен!')
+            return redirect('music:musician_detail', pk=musician.pk)
+    else:
+        form = MusicianForm(instance=musician)
+    
+    return render(request, 'music/musician_form.html', {'form': form, 'title': 'Редактировать карточку исполнителя'})
+
+
+
 # ========================================Треки================================
+
+
 
 def track_list(request):
 
@@ -206,18 +296,18 @@ def track_delete(request, pk):
 def track_update(request, pk):
 
 
-    track = get_object_or_404(Album, pk=pk)
+    track = get_object_or_404(MusicTrack, pk=pk)
     
     if request.method == 'POST':
         
-        form = MusicTrackForm(request.FILES, request.POST, instance=track)
+        form = MusicTrackForm(request.POST, request.FILES, instance=track)
         if form.is_valid():
            
             track = form.save()
             messages.success(request, f'Трек "{track.title}" успешно обновлен!')
-            return redirect('music:album_detail', pk=track.pk)
+            return redirect('music:track_detail', pk=track.pk)
     else:
-        form = AlbumForm(instance=track)
+        form = MusicTrackForm(instance=track)
     
     return render(request, 'music/track_form.html', {'form': form, 'title': 'Редактировать трек'})
 

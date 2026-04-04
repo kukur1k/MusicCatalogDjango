@@ -12,6 +12,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('albums/', views.album_list, name='album_list'),
     path('tracks/', views.track_list, name='track_list'),
+    path('musicians/', views.musician_list, name='musician_list'),
 
     # Альбомы
     path('albums/<int:pk>/', views.album_detail, name='album_detail'),
@@ -24,5 +25,10 @@ urlpatterns = [
     path('tracks/create/', views.track_create, name='track_create'),
     path('tracks/<int:pk>/update/', views.track_update, name='track_update'),
     path('tracks/<int:pk>/delete/', views.track_delete, name='track_delete'),
+
+    path('musicians/<int:pk>/', views.musician_detail, name='musician_detail'),
+    path('musicians/create/', views.musician_create, name='musician_create'),
+    path('musicians/<int:pk>/update/', views.musician_update, name='musician_update'),
+    path('musicians/<int:pk>/delete/', views.musician_delete, name='musician_delete'),
    
-]
+] 

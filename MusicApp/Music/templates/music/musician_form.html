@@ -1,4 +1,4 @@
-{% extends 'books/base.html' %}
+{% extends 'music/base.html' %}
 
 {% block title %}Добавить автора{% endblock %}
 
@@ -28,7 +28,7 @@
                     {% endfor %}
                     
                     <button type="submit" class="btn btn-success">Сохранить</button>
-                     <a href="{% url 'tracks:musician_list' %}" class="btn btn-secondary">Отмена</a>
+                     <a href="{% url 'music:musician_list' %}" class="btn btn-secondary">Отмена</a>
                 </form>
             </div>
         </div>

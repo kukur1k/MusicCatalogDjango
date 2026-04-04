@@ -7,6 +7,10 @@
     <div class="col-md-12">
         <h1 class="mb-4">Исполнители</h1>
         
+        <a href="{% url 'music:musician_create' %}" class="btn btn-primary">
+                    + Добавить исполнителя
+                </a>
+
         <div class="row">
             {% for musician in musicians %}
                 <div class="col-md-4 mb-3">
@@ -37,7 +41,7 @@
                                 </ul>
                             {% endif %}
                             
-                            <a href="{% url 'musician_detail' musician.pk %}" class="btn btn-primary mt-2">Подробнее</a>
+                            <a href="{% url 'music:musician_detail' musician.pk %}" class="btn btn-primary mt-2">Подробнее</a>
                         </div>
                     </div>
                 </div>
