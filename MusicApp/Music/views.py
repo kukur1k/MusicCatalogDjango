@@ -159,9 +159,8 @@ def musician_list(request):
         genre = form.cleaned_data.get('genre')
 
         if query:
-            albums = albums.filter(
-                Q(title__icontains=query) |
-                Q(musician__name__icontains=query)
+            musicians = musicians.filter(
+                Q(name__icontains=query)
             )
 
 
@@ -255,20 +254,20 @@ def track_list(request):
             tracks = tracks.filter(
                 Q(title__icontains=query) |
                 Q(musician__name__icontains=query) |
-                Q(album__icontains=query)
+                Q(album__title__icontains=query)
             )
 
         if musician:
-            tracks = tracks.filter(musician=musician)
+            tracks = tracks.filter(musician__name__icontains=musician)
 
         if release_date:
-            tracks = tracks.filter(release_date=release_date)
+            tracks = tracks.filter(release_date__year=release_date)
 
         if album:
-            tracks = tracks.filter(album=album)
+            tracks = tracks.filter(album__title__icontains=album)
 
         if genre:
-            tracks = tracks.filter(genre=genre)
+            tracks = tracks.filter(genre__name__icontains=genre)
 
     context = {
         'tracks': tracks, 

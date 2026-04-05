@@ -6,14 +6,12 @@
     <title>Музыка {% block title %}{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="brand-logo">
             <a class="navbar-brand" href="{% url 'music:home' %}">Hard Music</a>
-            <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-            </button>
         </div>
         <div class="nav-container">
             <ul class="navbar-nav">
