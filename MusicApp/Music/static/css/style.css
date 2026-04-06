@@ -122,7 +122,8 @@ html {
 
 .albums-page, 
 .tracks-page,
-.musicians-page {
+.musicians-page,
+.form-page {
     justify-items: center;
 }
 
@@ -406,4 +407,93 @@ html {
     align-items: center;
     gap: 0.5rem;
     background: rgba(0, 0, 0, 0.3);
+}
+
+--------------------формы добавления и редактирования------------------
+.form-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.form-container {
+    max-width: 600px;
+    width: 100%;
+}
+
+.formСard {
+    background: var(--bg-search);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    border: 1px solid rgba(var(--accent-rgb), 0.2);
+    padding: 2rem;
+    box-shadow: 0 20px 40px var(--shadow-dark), 0 0 0 1px rgba(var(--accent-rgb), 0.1);
+}
+
+.formСard h1 {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center;
+}
+
+.music-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+
+.currentImage {
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+}
+
+.currentImage p {
+    color: var(--text-card-muted);
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.previewImage {
+    max-height: 100px;
+    max-width: 100%;
+    border-radius: 12px;
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    object-fit: cover;
+}
+
+.formError {
+    color: #dc3545;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(220, 53, 69, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #dc3545;
+}
+
+.formError ul {
+    margin: 0;
+    padding-left: 1rem;
+}
+
+.HelpText {
+    color: var(--text-card-muted);
+    font-size: 0.7rem;
+    margin-top: 0.25rem;
+}
+
+.formButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
