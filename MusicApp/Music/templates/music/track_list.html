@@ -80,6 +80,14 @@
                     <a href="{% url 'music:track_delete' track.pk %}" class="moveIcon">
                         <i class="fas fa-trash-alt"></i>
                     </a>
+                    <!-- кнопка воспроизведения трека -->
+                    <button class="play-this" 
+                            data-file="{{ track.file.url }}"
+                            data-title="{{ track.title }}"
+                            data-artist="{{ track.musician.name }}"
+                            data-cover="{% if track.cover_image %}{{ track.cover_image.url }}{% endif %}">
+                        <i class="fas fa-play"></i>
+                    </button>
                 </div>
             </div>
         {% empty %}
