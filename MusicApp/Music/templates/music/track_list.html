@@ -59,9 +59,15 @@
                     {% endif %}
                 </div>
                 <div class="albumCardBody">
-                    <div class="trackAlbumLink">
-                        <h5><a href="{% url 'music:track_detail' track.pk %}">{{ track.title }}</a></h5>
-                        <h4 class="albumLink"> <a href="{% url 'music:album_detail' track.album.pk %}">{{ track.album.title }}</a></h4>
+                    <div class="trackHeader">
+                        <div class="trackTitleWrapper">
+                            <h5><a href="{% url 'music:track_detail' track.pk %}">{{ track.title }}</a></h5>
+                            <h4 class="albumLink"><a href="{% url 'music:album_detail' track.album.pk %}">{{ track.album.title }}</a></h4>
+                        </div>
+                        <button class="favorite-btn {% if track.is_favorite %}active{% endif %}" 
+                                data-track-id="{{ track.pk }}">
+                            <i class="{% if track.is_favorite %}fas{% else %}far{% endif %} fa-heart"></i>
+                        </button>
                     </div>
                     <span class="MusicianLink"><a href="{% url 'music:musician_detail' track.musician.pk %}"> {{ track.musician.name }} </a></span>
                     <div class="mainCardInf">
@@ -80,7 +86,6 @@
                     <a href="{% url 'music:track_delete' track.pk %}" class="moveIcon">
                         <i class="fas fa-trash-alt"></i>
                     </a>
-                    <!-- кнопка воспроизведения трека -->
                     <button class="play-this" 
                             data-file="{{ track.file.url }}"
                             data-title="{{ track.title }}"

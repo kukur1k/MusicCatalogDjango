@@ -147,6 +147,10 @@ html {
     box-shadow: 0 20px 40px var(--shadow-dark), 0 0 0 1px rgba(var(--accent-rgb), 0.1);
 }
 
+.searchCard h1{
+    text-align: center  !important;
+}
+
 
 .albumLink,
 .albumLink a{
@@ -879,4 +883,43 @@ html {
 .play-this:hover {
     transform: scale(1.05);
     background: #b65f4b;
+}
+
+
+.delete-warning,
+.delete-info{
+    text-align: center;
+}
+
+
+/* ==========================================Избранное===================================== */
+
+
+.trackHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #9b9b9b;
+    transition: all 0.3s;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.favorite-btn:hover {
+    color: #dc3545;
+    transform: scale(1.1);
+}
+
+.favorite-btn.active {
+    color: #dc3545;
 }

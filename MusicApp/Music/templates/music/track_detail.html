@@ -78,10 +78,13 @@
             <div class="info-row audio-row">
                 <span class="info-label">Аудио</span>
                 <span class="info-value">
-                    <audio controls class="audioPlayer">
-                        <source src="{{ track.file.url }}" type="audio/mpeg">
-                        Ваш браузер не поддерживает аудио
-                    </audio>
+                    <button class="play-this" 
+                            data-file="{{ track.file.url }}"
+                            data-title="{{ track.title }}"
+                            data-artist="{{ track.musician.name }}"
+                            data-cover="{% if track.cover_image %}{{ track.cover_image.url }}{% else %}{% static 'blockPhoto.png' %}{% endif %}">
+                        <i class="fas fa-play"></i>
+                    </button>
                 </span>
             </div>
             {% endif %}

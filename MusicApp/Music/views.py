@@ -210,7 +210,7 @@ def musician_create(request):
         form = MusicianForm()
     
     # Рендерим шаблон с формой
-    return render(request, 'music/musician_form.html', {'form': form, 'title': 'Добавить исполнителя'})
+    return render(request, 'music/musician_form.html', {'form': form, 'title': 'Добавить исполнителя', 'musician': None})
 
 
 def musician_update(request, pk):
@@ -229,7 +229,8 @@ def musician_update(request, pk):
     else:
         form = MusicianForm(instance=musician)
     
-    return render(request, 'music/musician_form.html', {'form': form, 'title': 'Редактировать карточку исполнителя'})
+    return render(request, 'music/musician_form.html', 
+                  {'form': form, 'title': 'Редактировать карточку исполнителя', 'musician': musician})
 
 
 

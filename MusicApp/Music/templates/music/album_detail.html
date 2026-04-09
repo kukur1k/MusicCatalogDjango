@@ -60,7 +60,6 @@
         </div>
     </div>
 
-    <!-- Список треков -->
     <div class="tracks-section">
         <h2>Список треков</h2>
         
@@ -73,21 +72,15 @@
                             <div class="track-title">
                                 <a href="{% url 'music:track_detail' track.pk %}">{{ track.title }}</a>
                             </div>
-                            <div class="track-meta">
-                                {% if track.genre %}
-                                    <span class="track-genre">{{ track.get_genre_display }}</span>
-                                {% endif %}
-                                {% if track.is_favorite %}
-                                    <span class="track-favorite">❤️ В избранном</span>
-                                {% endif %}
-                            </div>
                         </div>
-                        <div class="track-audio">
-                            {% if track.file %}
-                                <audio controls class="audio-player">
-                                    <source src="{{ track.file.url }}" type="audio/mpeg">
-                                </audio>
-                            {% endif %}
+                        <div class="track-play">
+                            <button class="play-this" 
+                                    data-file="{{ track.file.url }}"
+                                    data-title="{{ track.title }}"
+                                    data-artist="{{ album.musician.name }}"
+                                    data-cover="{% if album.cover_image %}{{ album.cover_image.url }}{% endif %}">
+                                <i class="fas fa-play"></i>
+                            </button>
                         </div>
                     </div>
                 {% endfor %}
