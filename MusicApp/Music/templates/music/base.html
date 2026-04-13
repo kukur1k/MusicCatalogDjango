@@ -67,9 +67,12 @@
                 </div>
             </div>
             <div class="player-controls">
-                <button id="nextBtn"><i class="fas fa-step-backward"></i></button>
+                <button id="prevBtn"><i class="fas fa-step-backward"></i></button>
                 <button id="playBtn"><i class="fas fa-play"></i></button>
-                <button id="prevBtn"><i class="fas fa-step-forward"></i></button>
+                <button id="nextBtn"><i class="fas fa-step-forward"></i></button>
+            </div>
+            <div class="player-progress">
+                <input type="range" id="progressSlider" value="0" step="0.01">
             </div>
             <div class="player-timer">
                 <span id="currentTime">0:00</span>
@@ -89,22 +92,32 @@
 
     
 
+    // плеер для музыкального файла и окошко плеера
     const player = document.getElementById('player');
     const audio = document.getElementById('playerAudio');
 
 
+    // кнопки управления
     const playBtn = document.getElementById('playBtn');
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');
     
+    // считываем иконку для смены на паузу
     const playIcon = playBtn.querySelector('i');
+
+    // данные для подстановки с трека
     const playerImg = document.getElementById('playerImg');
     const playerTitle = document.getElementById('playerTitle');
     const playerArtist = document.getElementById('playerArtist');
+
+    // текущее время которое прибавляется с нуля
     const currentTimeSpan = document.getElementById('currentTime');
+    // длительность трека
     const totalTimeSpan = document.getElementById('totalTime');
     const closeBtn = document.getElementById('closePlayerBtn');
 
+    // перемотка трека
+    const progressSlider = document.getElementById('progressSlider');
 
     let playlist = [];
     let currentTrackIndex = 0;
@@ -125,7 +138,46 @@
 }
 
 
+    function playTrackByIndex(index) {
+    if (playlist.length === 0) return;
+    
+    if (index < 0) index = playlist.length - 1;
+    if (index >= playlist.length) index = 0;
+    
+    currentTrackIndex = index;
+    const track = playlist[currentTrackIndex];
+    
+    if (track) {
+        audio.src = track.file;
+        playerTitle.textContent = track.title;
+        playerArtist.textContent = track.artist;
+        playerImg.src = track.cover || '/static/blockPhoto.png';
+        player.style.display = 'block';
+        audio.play();
+        playIcon.className = 'fas fa-pause';
+    }
+}
+
+    // выбор следующего трека
+    function nextTrack() {
+        playTrackByIndex(currentTrackIndex + 1);
+    }
+
+    // выбор предыдущего трека
+    function prevTrack() {
+        playTrackByIndex(currentTrackIndex - 1);
+    }
+
+
     function playTrack(file, title, artist, cover) {
+        // обновляем плейлист
+        makePlaylist(); 
+        const trackIndex = playlist.findIndex(t => t.file === file);
+    
+    if (trackIndex !== -1) {
+        playTrackByIndex(trackIndex);
+    } else {
+        // если трека нет в плейлисте
         audio.src = file;
         playerTitle.textContent = title;
         playerArtist.textContent = artist;
@@ -134,6 +186,9 @@
         audio.play();
         playIcon.className = 'fas fa-pause';
     }
+}
+
+
 
     playBtn.addEventListener('click', function() {
         if (audio.paused) {
@@ -145,20 +200,33 @@
         }
     });
 
-    prevBtn.addEventListener('click', function(){
+    // кнопки для перемещения по трекам
+    nextBtn.addEventListener('click', nextTrack);
+    prevBtn.addEventListener('click', prevTrack);
 
-    })
+    // автоматическое переключение на следующий трек когда закончился
+    audio.addEventListener('ended', function() {
+        nextTrack();
+    });
 
-    //====если трек воспроизводится, перерисовываем время
+    // если трек воспроизводится, перерисовываем время
     audio.addEventListener('timeupdate', function() {
         if (audio.duration) {
             let current = Math.floor(audio.currentTime);
             let total = Math.floor(audio.duration);
             currentTimeSpan.textContent = Math.floor(current / 60) + ':' + (current % 60 < 10 ? '0' + current % 60 : current % 60);
             totalTimeSpan.textContent = Math.floor(total / 60) + ':' + (total % 60 < 10 ? '0' + total % 60 : total % 60);
+            progressSlider.value = (audio.currentTime / audio.duration) * 100;
         }
     });
 
+
+    // изменение времени при движении слайдера
+    progressSlider.addEventListener('input', function() {
+        if (audio.duration) {
+            audio.currentTime = (this.value / 100) * audio.duration;
+        }
+    });
 
     closeBtn.addEventListener('click', function() {
         player.style.display = 'none';
@@ -178,6 +246,8 @@
             );
         });
     });
+
+
     
     window.playTrack = playTrack;
 

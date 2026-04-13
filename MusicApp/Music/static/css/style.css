@@ -923,3 +923,28 @@ html {
 .favorite-btn.active {
     color: #dc3545;
 }
+
+/* ========================Player Slider======================= */
+
+.player-progress {
+    width: 200px;
+}
+
+#progressSlider {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+#progressSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #990f26;
+    cursor: pointer;
+}
