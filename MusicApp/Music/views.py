@@ -3,7 +3,7 @@ from django.db.models import Q  # Для сложных запросов с OR (
 from django.contrib import messages
 from .models import Musician, MusicTrack, Album
 from .forms import MusicianForm, MusicTrackForm, AlbumForm, AlbumSearchForm, TrackSearchForm, MusicianSearchForm
-
+from django.shortcuts import redirect
 
 def home(request):
 
@@ -331,3 +331,12 @@ def track_create(request):
     # Рендерим шаблон с формой
     return render(request, 'music/track_form.html', {'form': form, 'title': 'Добавить трек'})
 
+
+# Изменение избранного и переход на эту же обновленную страницу
+def toggle_favorite(request, pk):
+    
+    track = get_object_or_404(MusicTrack, pk=pk)
+    track.is_folove = not track.is_folove
+    track.save()
+    
+    return redirect(request.META.get('HTTP_REFERER', 'music:track_list'))

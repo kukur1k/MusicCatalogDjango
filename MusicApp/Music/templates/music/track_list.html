@@ -64,10 +64,12 @@
                             <h5><a href="{% url 'music:track_detail' track.pk %}">{{ track.title }}</a></h5>
                             <h4 class="albumLink"><a href="{% url 'music:album_detail' track.album.pk %}">{{ track.album.title }}</a></h4>
                         </div>
-                        <button class="favorite-btn {% if track.is_favorite %}active{% endif %}" 
-                                data-track-id="{{ track.pk }}">
-                            <i class="{% if track.is_favorite %}fas{% else %}far{% endif %} fa-heart"></i>
-                        </button>
+                        <form method="post" action="{% url 'music:toggle_favorite' track.pk %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="favorite-btn {% if track.is_folove %}active{% endif %}">
+                                <i class="{% if track.is_folove %}fas{% else %}far{% endif %} fa-heart"></i>
+                            </button>
+                        </form>
                     </div>
                     <span class="MusicianLink"><a href="{% url 'music:musician_detail' track.musician.pk %}"> {{ track.musician.name }} </a></span>
                     <div class="mainCardInf">

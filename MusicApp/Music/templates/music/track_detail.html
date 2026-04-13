@@ -60,12 +60,24 @@
             </div>
             {% endif %}
             
-            {% if track.is_favorite %}
+            
             <div class="info-row">
-                <span class="info-label">⭐ Избранное</span>
-                <span class="info-value">В избранном</span>
+                <span class="info-label">Избранное</span>
+                <span class="info-value">
+                    <form method="post" action="{% url 'music:toggle_favorite' track.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="favorite-btn {% if track.is_folove %}active{% endif %}">
+                            {% if track.is_folove %}
+                                <i class="fas fa-heart"></i>
+                            {% else %}
+                                <i class="far fa-heart"></i>
+                            {% endif %}
+                        </button>
+                    </form>
+                </span>
             </div>
-            {% endif %}
+
+
             
             {% if track.description %}
             <div class="info-row">

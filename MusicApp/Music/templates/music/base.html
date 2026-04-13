@@ -90,6 +90,8 @@
 
 <script>
 
+    // использует ли пользователь слайдер
+    let activeSlider = false;
     
 
     // плеер для музыкального файла и окошко плеера
@@ -209,9 +211,11 @@
         nextTrack();
     });
 
+    
+
     // если трек воспроизводится, перерисовываем время
     audio.addEventListener('timeupdate', function() {
-        if (audio.duration) {
+        if (audio.duration && !activeSlider) {
             let current = Math.floor(audio.currentTime);
             let total = Math.floor(audio.duration);
             currentTimeSpan.textContent = Math.floor(current / 60) + ':' + (current % 60 < 10 ? '0' + current % 60 : current % 60);
@@ -220,11 +224,24 @@
         }
     });
 
+    progressSlider.addEventListener('mousedown', function() {
+        activeSlider = true;
+    });
+
+    progressSlider.addEventListener('mouseup', function() {
+        activeSlider = false;
+        if (audio.duration) {
+            audio.currentTime = (progressSlider.value / 100) * audio.duration;
+        }
+    });
+
 
     // изменение времени при движении слайдера
     progressSlider.addEventListener('input', function() {
         if (audio.duration) {
-            audio.currentTime = (this.value / 100) * audio.duration;
+            let newTime = (this.value / 100) * audio.duration;
+            let current = Math.floor(newTime);
+            currentTimeSpan.textContent = Math.floor(current / 60) + ':' + (current % 60 < 10 ? '0' + current % 60 : current % 60);
         }
     });
 

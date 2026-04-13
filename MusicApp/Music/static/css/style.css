@@ -948,3 +948,30 @@ html {
     background: #990f26;
     cursor: pointer;
 }
+
+/* ===========================Favorite btn======================== */
+
+.favorite-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: #8987A1;
+}
+
+.favorite-btn i {
+    font-size: 1.4rem;
+    transition: all 0.3s ease;
+}
+
+.favorite-btn:hover {
+    background: rgba(217, 64, 4, 0.1);
+    transform: scale(1.1);
+}

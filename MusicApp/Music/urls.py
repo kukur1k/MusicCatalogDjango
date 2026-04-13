@@ -30,5 +30,7 @@ urlpatterns = [
     path('musicians/create/', views.musician_create, name='musician_create'),
     path('musicians/<int:pk>/update/', views.musician_update, name='musician_update'),
     path('musicians/<int:pk>/delete/', views.musician_delete, name='musician_delete'),
+
+     path('tracks/<int:pk>/favorite/', views.toggle_favorite, name='toggle_favorite'),
    
 ] 
