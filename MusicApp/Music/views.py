@@ -242,6 +242,11 @@ def track_list(request):
 
     tracks = MusicTrack.objects.select_related('album').all()
 
+    favorite_only = request.GET.get('favorite') == 'only'
+    if favorite_only:
+        tracks = tracks.filter(is_folove=True)
+
+
     form = TrackSearchForm(request.GET)
 
     if form.is_valid():
@@ -340,3 +345,23 @@ def toggle_favorite(request, pk):
     track.save()
     
     return redirect(request.META.get('HTTP_REFERER', 'music:track_list'))
+
+
+#для начальной страницы с сизбранным
+def home(request):
+    # Подсчет количества записей в базе данных
+    total_tracks = MusicTrack.objects.count()  
+    total_albums = Album.objects.count()  
+    recent_tracks = MusicTrack.objects.all()[:5]
+    
+    # Получаем избранные треки
+    favorite_tracks = MusicTrack.objects.filter(is_folove=True)[:6]  # последние 6 избранных
+    
+    # Контекст для передачи в шаблон
+    context = {
+        'total_tracks': total_tracks,
+        'total_albums': total_albums,
+        'recent_tracks': recent_tracks,
+        'favorite_tracks': favorite_tracks,  # добавляем избранные
+    }
+    return render(request, 'music/home.html', context)

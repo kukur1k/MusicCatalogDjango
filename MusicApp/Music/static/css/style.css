@@ -975,3 +975,258 @@ html {
     background: rgba(217, 64, 4, 0.1);
     transform: scale(1.1);
 }
+
+
+
+
+/* ========== Главная страница ========== */
+.home-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.hero-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.hero-title {
+    font-size: 3rem;
+    background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+}
+
+
+.favorites-section,
+.recent-section {
+    margin-bottom: 3rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(var(--accent-rgb), 0.2);
+    padding-bottom: 0.5rem;
+}
+
+.section-header h2 {
+    font-size: 1.5rem;
+    color: var(--text-light);
+}
+
+.section-header h2 i {
+    color: #dc3545;
+    margin-right: 0.5rem;
+}
+
+.view-all {
+    color: var(--accent-start);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.view-all:hover {
+    color: var(--accent-end);
+}
+
+
+.tracks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.track-card {
+    background: var(--bg-card-dark);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s;
+    border: 1px solid rgba(var(--accent-rgb), 0.1);
+}
+
+.track-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-start);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.track-cover {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.track-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-btn-small {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent-start);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0;
+}
+
+.track-card:hover .play-btn-small {
+    opacity: 1;
+}
+
+.play-btn-small:hover {
+    transform: scale(1.1);
+    background: var(--accent-end);
+}
+
+.track-info {
+    padding: 0.8rem;
+}
+
+.track-info h4 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.track-info h4 a {
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+.track-info h4 a:hover {
+    color: var(--accent-start);
+}
+
+.track-info p {
+    font-size: 0.8rem;
+    color: var(--text-card-muted);
+}
+
+.track-info p a {
+    color: var(--text-card-muted);
+    text-decoration: none;
+}
+
+.track-info p a:hover {
+    color: var(--accent-start);
+}
+
+.album-name {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+
+
+
+.tracks-list-horizontal {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.track-item-horizontal {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem;
+    background: var(--bg-card-dark);
+    border-radius: 12px;
+    transition: all 0.3s;
+}
+
+.track-item-horizontal:hover {
+    background: rgba(var(--accent-rgb), 0.1);
+}
+
+.track-cover-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.track-cover-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.track-info-horizontal {
+    flex: 1;
+}
+
+.track-info-horizontal h4 {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.track-info-horizontal h4 a {
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+.track-info-horizontal h4 a:hover {
+    color: var(--accent-start);
+}
+
+.track-info-horizontal p {
+    font-size: 0.8rem;
+    color: var(--text-card-muted);
+}
+
+.play-btn-mini {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--accent-start);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.play-btn-mini:hover {
+    transform: scale(1.05);
+    background: var(--accent-end);
+}
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: var(--bg-card-dark);
+    border-radius: 16px;
+}
+
+.empty-state p {
+    margin-bottom: 1rem;
+    color: var(--text-card-muted);
+}
+
+/* Быстрые действия */
+.quick-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(var(--accent-rgb), 0.2);
+}
