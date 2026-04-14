@@ -176,18 +176,19 @@
         makePlaylist(); 
         const trackIndex = playlist.findIndex(t => t.file === file);
     
-    if (trackIndex !== -1) {
-        playTrackByIndex(trackIndex);
-    } else {
-        // если трека нет в плейлисте
-        audio.src = file;
-        playerTitle.textContent = title;
-        playerArtist.textContent = artist;
-        playerImg.src = cover || '/static/blockPhoto.png';
-        player.style.display = 'block';
-        audio.play();
-        playIcon.className = 'fas fa-pause';
-    }
+        if (trackIndex !== -1) {
+            playTrackByIndex(trackIndex);
+        } else {
+            // если трека нет в плейлисте
+            audio.src = file;
+            playerTitle.textContent = title;
+            playerArtist.textContent = artist;
+            playerImg.src = cover || '/static/blockPhoto.png';
+            player.style.display = 'block';
+            audio.play();
+            playIcon.className = 'fas fa-pause';
+        }
+        
 }
 
 

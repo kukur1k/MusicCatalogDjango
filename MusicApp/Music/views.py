@@ -91,7 +91,7 @@ def album_update(request, pk):
     
     if request.method == 'POST':
         
-        form = AlbumForm(request.FILES, request.POST, instance=album)
+        form = AlbumForm(request.POST, request.FILES, instance=album)
         if form.is_valid():
            
             album = form.save()
@@ -220,11 +220,11 @@ def musician_update(request, pk):
     
     if request.method == 'POST':
         
-        form = MusicianForm(request.FILES, request.POST, instance=musician)
+        form = MusicianForm(request.POST, request.FILES, instance=musician)
         if form.is_valid():
            
             musician = form.save()
-            messages.success(request, f'Альбом "{musician.name}" успешно обновлен!')
+            messages.success(request, f'Исполнитель "{musician.name}" успешно обновлен!')
             return redirect('music:musician_detail', pk=musician.pk)
     else:
         form = MusicianForm(instance=musician)
