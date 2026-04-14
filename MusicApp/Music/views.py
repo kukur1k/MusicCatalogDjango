@@ -5,6 +5,9 @@ from .models import Musician, MusicTrack, Album
 from .forms import MusicianForm, MusicTrackForm, AlbumForm, AlbumSearchForm, TrackSearchForm, MusicianSearchForm
 from django.shortcuts import redirect
 
+
+
+
 def home(request):
 
     # Подсчет количества записей в базе данных
