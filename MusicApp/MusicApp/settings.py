@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(d$*s0jj*0mtqpl4br-)(_99dv)+0*mo@!n+1ejx=q_xd1@$g^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'web']
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -73,6 +74,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MusicApp.wsgi.application'
 
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+DATA_UPLOAD_MAX_NUMBER_FILES = 100
+
+MAX_UPLOAD_SIZE = 104857600  # 100MB в байтах
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -123,6 +129,7 @@ USE_TZ = True
 
 # Статические файлы
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Медиа файлы
