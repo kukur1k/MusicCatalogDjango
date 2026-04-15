@@ -84,11 +84,47 @@
         <audio id="playerAudio" src=""></audio>
     </div>
 
+
+    <!-- всплывающее плеер -->
+    <div id="playerModal" class="player-modal" style="display: none;">
+        <div class="modal-content">
+            <button id="closeModalBtn" class="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-player">
+                <div class="playerModalInfo">
+                    <div class="modalImg">
+                        <img id="modalPlayerImg" src="" alt="">
+                    </div>
+                    <div class="track-title">
+                        <div id="modalPlayerTitle"></div>
+                        <div id="modalPlayerArtist"></div>
+                    </div>
+                </div>
+                <div class="player-controls">
+                    <button id="modalPrevBtn"><i class="fas fa-step-backward"></i></button>
+                    <button id="modalPlayBtn"><i class="fas fa-play"></i></button>
+                    <button id="modalNextBtn"><i class="fas fa-step-forward"></i></button>
+                </div>
+                <div class="player-progress">
+                    <input type="range" id="modalProgressSlider" value="0" step="0.01">
+                </div>
+                <div class="player-timer">
+                    <span id="modalCurrentTime">0:00</span>
+                    <span>/</span>
+                    <span id="modalTotalTime">0:00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 
 
 
 <script>
+
+// ============================Для плеера================================
+
 
     // использует ли пользователь слайдер
     let activeSlider = false;
@@ -157,6 +193,10 @@
         player.style.display = 'block';
         audio.play();
         playIcon.className = 'fas fa-pause';
+
+        if (playerModal.style.display === 'flex') {
+            syncModal();
+        }
     }
 }
 
@@ -289,6 +329,110 @@
 
     
     window.playTrack = playTrack;
+
+
+    
+
+    // ===================================Для всплывающего окна==============================
+
+    const playerModal = document.getElementById('playerModal');
+
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalPlayerImg = document.getElementById('modalPlayerImg');
+    const modalPlayerTitle = document.getElementById('modalPlayerTitle');
+    const modalPlayerArtist = document.getElementById('modalPlayerArtist');
+
+    const modalPrevBtn = document.getElementById('modalPrevBtn');
+
+    const modalPlayBtn = document.getElementById('modalPlayBtn');
+    const modalPlayIcon = modalPlayBtn.querySelector('i');
+
+    const modalNextBtn = document.getElementById('modalNextBtn');
+
+
+    modalPlayBtn.addEventListener('click', function() {
+        if (audio.paused) {
+            audio.play();
+            modalPlayIcon.className = 'fas fa-pause';
+        } else {
+            audio.pause();
+            modalPlayIcon.className = 'fas fa-play';
+        }
+    });
+
+
+
+    const modalProgressSlider = document.getElementById('modalProgressSlider');
+    const modalCurrentTime = document.getElementById('modalCurrentTime');
+    const modalTotalTime = document.getElementById('modalTotalTime');
+
+    let modalActive = false;
+
+    // синхронизируем с активным плеером
+    function syncModal() {
+        modalPlayerImg.src = playerImg.src;
+        modalPlayerTitle.textContent = playerTitle.textContent;
+        modalPlayerArtist.textContent = playerArtist.textContent;
+        if (audio.duration) {
+            // пересчет времени как в плеере
+            modalProgressSlider.value = (audio.currentTime / audio.duration) * 100;
+            modalCurrentTime.textContent = formatTime(audio.currentTime);
+            modalTotalTime.textContent = formatTime(audio.duration);
+        }
+        // изменяем кнопку в зависимости от того, играет ли трек
+        modalPlayIcon.className = audio.paused ? 'fas fa-play' : 'fas fa-pause';
+    }
+
+    // открываем модально окно (синхрон + видимость)
+    function openModal() {
+        syncModal();
+        playerModal.style.display = 'flex';
+    }
+
+    // закрытие окна кнопкой или по нажатию
+    closeModalBtn.addEventListener('click', () => playerModal.style.display = 'none');
+    playerModal.addEventListener('click', (e) => {
+        if (e.target === playerModal) playerModal.style.display = 'none';
+    });
+
+    // кнопка плей пауза
+    modalPlayBtn.addEventListener('click', () => {
+        if (audio.paused) audio.play();
+        else audio.pause();
+    });
+
+    // кнопки вперед назад
+    modalPrevBtn.addEventListener('click', prevTrack);
+    modalNextBtn.addEventListener('click', nextTrack);
+
+    // слайдер аналогично как в плеере
+    modalProgressSlider.addEventListener('mousedown', () => modalActive = true);
+    modalProgressSlider.addEventListener('mouseup', function() {
+        modalActive = false;
+        if (audio.duration){
+            audio.currentTime = (this.value / 100) * audio.duration;
+        }
+    });
+    modalProgressSlider.addEventListener('input', function() {
+        if (audio.duration) {
+            modalCurrentTime.textContent = formatTime((this.value / 100) * audio.duration);
+        }
+    });
+
+    // двигаем слайдер и перерисовываем время
+    audio.addEventListener('timeupdate', () => {
+        if (audio.duration && !modalActive && playerModal.style.display === 'flex') {
+            modalProgressSlider.value = (audio.currentTime / audio.duration) * 100;
+            modalCurrentTime.textContent = formatTime(audio.currentTime);
+            modalTotalTime.textContent = formatTime(audio.duration);
+        }
+    });
+
+    // Клик по обложке открывает окно
+    playerImg.addEventListener('click', () => {
+        if (player.style.display === 'block') openModal();
+    });
+    
 
 </script>
 
