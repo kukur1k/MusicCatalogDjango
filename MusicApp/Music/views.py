@@ -242,18 +242,23 @@ def musician_update(request, pk):
 
 
 def track_list(request):
-
-    tracks = MusicTrack.objects.select_related('album').all()
-
-    favorite_only = request.GET.get('favorite') == 'only'
-    if favorite_only:
-        tracks = tracks.filter(is_folove=True)
-
-
+    tracks = MusicTrack.objects.select_related('album', 'musician', 'genre').all()
     form = TrackSearchForm(request.GET)
+    
+    # Получаем ID избранных треков текущего пользователя
+    user_favorites = []
+    if request.user.is_authenticated:
+        user_favorites = request.user.favorite_tracks.values_list('track_id', flat=True)
+    
+    # Фильтр "только избранное" для текущего пользователя
+    favorite_only = request.GET.get('favorite') == 'only'
+    if favorite_only and request.user.is_authenticated:
+        tracks = tracks.filter(id__in=user_favorites)
+    elif favorite_only and not request.user.is_authenticated:
+        tracks = tracks.none()  # Неавторизованным показываем пустой список
 
     if form.is_valid():
-        query  = form.cleaned_data.get('query')
+        query = form.cleaned_data.get('query')
         musician = form.cleaned_data.get('musician')
         album = form.cleaned_data.get('album')
         release_date = form.cleaned_data.get('release_date')
@@ -268,21 +273,22 @@ def track_list(request):
 
         if musician:
             tracks = tracks.filter(musician__name__icontains=musician)
-
         if release_date:
             tracks = tracks.filter(release_date__year=release_date)
-
         if album:
             tracks = tracks.filter(album__title__icontains=album)
-
         if genre:
             tracks = tracks.filter(genre__name__icontains=genre)
 
     context = {
-        'tracks': tracks, 
-        'form': form,   
+        'tracks': tracks,
+        'form': form,
+        'user_favorites': user_favorites,  # Передаем в шаблон
     }
     return render(request, 'music/track_list.html', context)
+
+
+
 
 def track_detail(request, pk):    
     track = get_object_or_404(MusicTrack.objects.select_related('album', 'musician'), pk=pk)
@@ -340,15 +346,27 @@ def track_create(request):
     return render(request, 'music/track_form.html', {'form': form, 'title': 'Добавить трек'})
 
 
-# Изменение избранного и переход на эту же обновленную страницу
-def toggle_favorite(request, pk):
-    
-    track = get_object_or_404(MusicTrack, pk=pk)
-    track.is_folove = not track.is_folove
-    track.save()
-    
+from django.contrib.auth.decorators import login_required
+from .models import FavoriteTrack
+
+@login_required
+def toggle_favorite(request, track_id):
+    track = get_object_or_404(MusicTrack, pk=track_id)
+    favorite, created = FavoriteTrack.objects.get_or_create(
+        user=request.user,
+        track=track
+    )
+    if not created:
+        favorite.delete()
     return redirect(request.META.get('HTTP_REFERER', 'music:track_list'))
 
+
+
+@login_required
+def favorite_list(request):
+    favorites = request.user.favorite_tracks.select_related('track').all()
+    tracks = [fav.track for fav in favorites]
+    return render(request, 'music/favorite_list.html', {'tracks': tracks})
 
 #для начальной страницы с сизбранным
 def home(request):
@@ -368,3 +386,20 @@ def home(request):
         'favorite_tracks': favorite_tracks,  # добавляем избранные
     }
     return render(request, 'music/home.html', context)
+
+
+# =======================Регистрация=====================
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Автоматический вход после регистрации
+            return redirect('music:home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})

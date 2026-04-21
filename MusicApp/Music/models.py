@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse
 
+from django.contrib.auth.models import User
+
+
 class Musician(models.Model):
     name = models.CharField(
         max_length=100, 
@@ -179,6 +182,17 @@ class MusicTrack(models.Model):
 
 
 
+
+class FavoriteTrack(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorite_tracks')
+    track = models.ForeignKey(MusicTrack, on_delete=models.CASCADE, related_name='favorited_by')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'track')  # Чтобы нельзя было добавить один трек дважды
+
+    def __str__(self):
+        return f"{self.user.username} - {self.track.title}"
 
 
 

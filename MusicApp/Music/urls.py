@@ -33,6 +33,11 @@ urlpatterns = [
 
     path('tracks/<int:pk>/favorite/', views.toggle_favorite, name='toggle_favorite'),
 
+    path('favorites/', views.favorite_list, name='favorite_list'),
+    path('track/<int:track_id>/favorite/', views.toggle_favorite, name='toggle_favorite'),
+
+    path('register/', views.register, name='register'),
+]
+
     
    
-] 
