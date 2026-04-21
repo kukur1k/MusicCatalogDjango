@@ -242,7 +242,7 @@ def musician_update(request, pk):
 
 
 def track_list(request):
-    tracks = MusicTrack.objects.select_related('album', 'musician', 'genre').all()
+    tracks = MusicTrack.objects.select_related('album').all()
     form = TrackSearchForm(request.GET)
     
     # Получаем ID избранных треков текущего пользователя

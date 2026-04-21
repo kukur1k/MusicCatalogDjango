@@ -138,7 +138,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# # аккаунт
-# ACCOUNT_EMAIL_VERIFICATION = 'none' 
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+LOGIN_REDIRECT_URL = '/'  # Перенаправление на главную
+LOGOUT_REDIRECT_URL = '/'  # Перенаправление на главную после выхода
+LOGIN_URL = '/login/'
+
+
