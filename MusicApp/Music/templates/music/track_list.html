@@ -6,12 +6,15 @@
 {% block content %}
 <div class="tracks-page">
     <h1>Треки</h1>
-    <div class="btnPrimaryDiv">
-        <a href="{% url 'music:track_create' %}" class="btnPrimary">
-            + Добавить трек
-        </a>
-    </div>
-
+    
+    
+    {% if user.is_superuser %}
+        <div class="btnPrimaryDiv">
+            <a href="{% url 'music:track_create' %}" class="btnPrimary">
+                + Добавить трек
+            </a>
+        </div>
+    {% endif %}
     <div class="searchCard">
         <h1>Поиск треков</h1>
         <form method="get">
@@ -85,12 +88,16 @@
                     </div>
                 </div>
                 <div class="manipulationPanel">
-                    <a href="{% url 'music:track_update' track.pk %}" class="moveIcon">
-                        <i class="fas fa-pencil-alt"></i>
-                    </a>
-                    <a href="{% url 'music:track_delete' track.pk %}" class="moveIcon">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'music:track_update' track.pk %}" class="moveIcon">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                        <a href="{% url 'music:track_delete' track.pk %}" class="moveIcon">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    {% endif %}
                     <button class="play-this" 
                             data-file="{{ track.file.url }}"
                             data-title="{{ track.title }}"
