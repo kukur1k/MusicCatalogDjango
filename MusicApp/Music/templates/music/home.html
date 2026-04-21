@@ -15,7 +15,7 @@
     <section class="favorites-section">
         <div class="section-header">
             <h2><i class="fas fa-heart"></i> Избранные треки</h2>
-            <a href="{% url 'music:track_list' %}?favorite=only" class="view-all">Все избранное →</a>
+            <a href="{% url 'music:favorite_list' %}" class="view-all">Все избранное →</a>
         </div>
         
         {% if favorite_tracks %}

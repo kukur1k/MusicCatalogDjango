@@ -2,6 +2,8 @@ from django.urls import path
 
 from . import views # Импорт представлений из текущего приложения
 
+from django.contrib.auth import views as auth_views
+
 # Пространство имен для URL-шаблонов приложения
 
 app_name = 'music'
@@ -33,6 +35,15 @@ urlpatterns = [
 
     path('tracks/<int:pk>/favorite/', views.toggle_favorite, name='toggle_favorite'),
 
+    path('favorites/', views.favorite_list, name='favorite_list'),
+    path('track/<int:track_id>/favorite/', views.toggle_favorite, name='toggle_favorite'),
+
+    path('register/', views.register, name='register'),
+
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+    path('register/', views.register, name='register'),
+]
+
     
    
-] 

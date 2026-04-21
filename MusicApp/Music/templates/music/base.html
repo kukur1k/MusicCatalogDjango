@@ -26,7 +26,28 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'music:musician_list' %}">Исполнители</a>
-                </li>      
+                </li>
+                
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'music:favorite_list' %}">
+                            <i class="fas fa-heart"></i> Избранное
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link">{{ user.username }}</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'music:logout' %}">Выйти</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'music:login' %}">Войти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'music:register' %}">Регистрация</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
