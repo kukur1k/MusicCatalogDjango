@@ -15,11 +15,21 @@ def home(request):
     total_albums = Album.objects.count()  
     recent_tracks = MusicTrack.objects.all()[:5]
     
+    favorite_tracks = []
+    if request.user.is_authenticated:
+        # Берем треки из модели FavoriteTrack
+        favorite_tracks = MusicTrack.objects.filter(
+            favorited_by__user=request.user
+        )[:6]  # последние 6 избранных
+    else:
+        favorite_tracks = []
+
     # Контекст для передачи в шаблон
     context = {
         'total_tracks': total_tracks,
         'total_albums': total_albums,
         'recent_tracks': recent_tracks,
+        'favorite_tracks': favorite_tracks,
     }
     return render(request, 'music/home.html', context)
 

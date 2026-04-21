@@ -86,7 +86,7 @@ MAX_UPLOAD_SIZE = 104857600  # 100MB в байтах
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'data' / 'db.sqlite3',
     }
 }
 
