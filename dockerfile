@@ -13,11 +13,11 @@ RUN echo "Django==4.2.16" > requirements.txt && \
 
 RUN pip install --default-timeout=200 --no-cache-dir -r requirements.txt
 
-COPY MusicApp/ .
+COPY ..
 
 RUN mkdir -p staticfiles media
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD gunicorn MusicApp.MusicApp.wsgi:application --bind 0.0.0.0:$PORT
+CMD python manage.py migrate --noinput && gunicorn MusicApp.wsgi:application --bind 0.0.0.0:${PORT:-8000}
