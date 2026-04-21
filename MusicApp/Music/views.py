@@ -378,26 +378,6 @@ def favorite_list(request):
     tracks = [fav.track for fav in favorites]
     return render(request, 'music/favorite_list.html', {'tracks': tracks})
 
-#для начальной страницы с сизбранным
-def home(request):
-    # Подсчет количества записей в базе данных
-    total_tracks = MusicTrack.objects.count()  
-    total_albums = Album.objects.count()  
-    recent_tracks = MusicTrack.objects.all()[:5]
-    
-    # Получаем избранные треки
-    favorite_tracks = MusicTrack.objects.filter(is_folove=True)[:6]  # последние 6 избранных
-    
-    # Контекст для передачи в шаблон
-    context = {
-        'total_tracks': total_tracks,
-        'total_albums': total_albums,
-        'recent_tracks': recent_tracks,
-        'favorite_tracks': favorite_tracks,  # добавляем избранные
-    }
-    return render(request, 'music/home.html', context)
-
-
 # =======================Регистрация=====================
 
 from django.contrib.auth.forms import UserCreationForm
