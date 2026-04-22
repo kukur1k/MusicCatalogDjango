@@ -35,7 +35,12 @@ SECRET_KEY = '6Hp_6-ezQMye3m54vRSIsZ4lkK8pTSZmthheHYn9VuNKZjFvwnt8RV7xuHjZsFryM-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'https://*.railway.app',
+    'https://*.up.railway.app',
+    'http://localhost',
+    'http://127.0.0.1',
+]
 
 
 # Application definition
