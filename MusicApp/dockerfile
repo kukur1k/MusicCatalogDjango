@@ -6,12 +6,12 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # копируем requirements
-COPY MusicApp/requirements.txt /app/
+COPY requirements.txt /app/
 
 RUN pip install --no-cache-dir -r requirements.txt
 
 # копируем ВЕСЬ проект внутрь контейнера
-COPY MusicApp /app/
+COPY . /app/
 
 # папки под Django
 RUN mkdir -p staticfiles media data
@@ -19,4 +19,4 @@ RUN mkdir -p staticfiles media data
 # работаем внутри папки где manage.py
 WORKDIR /app
 
-CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn MusicApp.MusicApp.wsgi:application --bind 0.0.0.0:$PORT"]
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn MusicApp.wsgi:application --bind 0.0.0.0:$PORT"]
