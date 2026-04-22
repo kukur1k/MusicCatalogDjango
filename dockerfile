@@ -5,15 +5,18 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN echo "Django==4.2.16" > requirements.txt && \
-    echo "gunicorn==21.2.0" >> requirements.txt && \
-    echo "Pillow==10.1.0" >> requirements.txt && \
-    echo "whitenoise==6.6.0" >> requirements.txt
+COPY requirements.txt /app/
 
+# RUN if [ ! -f requirements.txt ]; then \
+#      echo "Django==4.2.16" > requirements.txt && \
+#     echo "gunicorn==21.2.0" >> requirements.txt && \
+#     echo "Pillow==10.1.0" >> requirements.txt && \
+#     echo "whitenoise==6.6.0" >> requirements.txt
+# fi
 
 RUN pip install --default-timeout=200 --no-cache-dir -r requirements.txt
 
-COPY ..
+COPY . /app/
 
 RUN mkdir -p staticfiles media
 RUN python manage.py collectstatic --noinput
@@ -21,3 +24,4 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 
 CMD python manage.py migrate --noinput && gunicorn MusicApp.wsgi:application --bind 0.0.0.0:${PORT:-8000}
+
