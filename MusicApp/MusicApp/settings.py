@@ -36,10 +36,10 @@ SECRET_KEY = '6Hp_6-ezQMye3m54vRSIsZ4lkK8pTSZmthheHYn9VuNKZjFvwnt8RV7xuHjZsFryM-
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'https://*.railway.app',
-    'https://*.up.railway.app',
-    'http://localhost',
-    'http://127.0.0.1',
+    'localhost',
+    '127.0.0.1',
+    '.railway.app',  
+    '.up.railway.app'
 ]
 
 
