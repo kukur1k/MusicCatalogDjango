@@ -30,13 +30,12 @@ SECRET_KEY = '6Hp_6-ezQMye3m54vRSIsZ4lkK8pTSZmthheHYn9VuNKZjFvwnt8RV7xuHjZsFryM-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(d$*s0jj*0mtqpl4br-)(_99dv)+0*mo@!n+1ejx=q_xd1@$g^'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'web',]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

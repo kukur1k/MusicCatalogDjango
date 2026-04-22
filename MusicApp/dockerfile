@@ -7,21 +7,17 @@ WORKDIR /app
 
 COPY requirements.txt /app/
 
-# RUN if [ ! -f requirements.txt ]; then \
-#      echo "Django==4.2.16" > requirements.txt && \
-#     echo "gunicorn==21.2.0" >> requirements.txt && \
-#     echo "Pillow==10.1.0" >> requirements.txt && \
-#     echo "whitenoise==6.6.0" >> requirements.txt
-# fi
+
 
 RUN pip install --default-timeout=200 --no-cache-dir -r requirements.txt
+
+RUN mkdir -p data
 
 COPY . /app/
 
 RUN mkdir -p staticfiles media
-RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD python manage.py migrate --noinput && gunicorn MusicApp.wsgi:application --bind 0.0.0.0:${PORT:-8000}
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn MusicApp.wsgi:application --bind 0.0.0.0:$PORT"]
 
