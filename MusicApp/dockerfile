@@ -6,12 +6,12 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # копируем requirements
-COPY requirements.txt /app
+COPY requirements.txt 
 
 RUN pip install --no-cache-dir -r requirements.txt
 
 # копируем ВЕСЬ проект внутрь контейнера
-COPY . /app/
+COPY . /app
 
 # папки под Django
 RUN mkdir -p staticfiles media data
