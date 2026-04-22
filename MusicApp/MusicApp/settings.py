@@ -14,16 +14,17 @@ from pathlib import Path
 import os
 import dj_database_url 
 
-
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600
-    )
-}
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+SECRET_KEY = '6Hp_6-ezQMye3m54vRSIsZ4lkK8pTSZmthheHYn9VuNKZjFvwnt8RV7xuHjZsFryM-4'
+
+
+
+
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -88,6 +89,14 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 DATA_UPLOAD_MAX_NUMBER_FILES = 100
 
 MAX_UPLOAD_SIZE = 104857600  # 100MB в байтах
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+#         conn_max_age=600
+#     )
+# }
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
