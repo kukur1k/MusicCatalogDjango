@@ -38,7 +38,12 @@
                         <span class="nav-link">{{ user.username }}</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'music:logout' %}">Выйти</a>
+                        <form method="post" action="{% url 'music:logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link" style="background: none; border: none; cursor: pointer; padding: 0.5rem 0;">
+                                Выйти
+                            </button>
+                        </form>
                     </li>
                 {% else %}
                     <li class="nav-item">
