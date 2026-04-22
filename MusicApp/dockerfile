@@ -11,7 +11,7 @@ COPY MusicApp/requirements.txt /app
 RUN pip install --no-cache-dir -r  requirements.txt
 
 # копируем ВЕСЬ проект внутрь контейнера
-COPY . /app
+COPY MusicApp/ /app/
 
 # папки под Django
 RUN mkdir -p staticfiles media data
