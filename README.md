@@ -17,3 +17,8 @@
 
 ## Ссылка на хостинг
 `https://musiccatalogdjango-production.up.railway.app/albums/`
+
+## ТехСтек
+- Backend: Django 6.0+
+- Frontend: HTML5, CSS3, JavaScript
+- База данных: SQLite (по умолчанию)
